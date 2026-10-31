@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#5b1726" />
+  <title>Vinea — A Celebration of Wine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { wine: '#5b1726', cream: '#f5f0e7', olive: '#666b45', gold: '#c4a46b' }, fontFamily: { display: ['Cormorant Garamond','serif'], sans: ['DM Sans','sans-serif'] } } } }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <!-- Intro curtain (plays once per visit) -->
+  <div id="loader" aria-hidden="true">
+    <div class="word display"><span>vinea<i>.</i></span></div>
+    <div class="meta"><span>A celebration of wine</span><span><span id="loaderCount">000</span> %</span></div>
+    <div class="bar"></div>
+  </div>
+  <div id="progress" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="fixed top-0 z-50 w-full text-white mix-blend-difference" id="header">
+    <div class="flex items-center justify-between px-5 md:px-10 py-5">
+      <a href="#home" class="display text-3xl md:text-4xl tracking-tight">vinea<span class="text-gold">.</span></a>
+      <nav class="hidden lg:flex items-center gap-8">
+        <a class="nav-link" href="#about">Our story</a><a class="nav-link" href="#judges">The judges</a><a class="nav-link" href="#sponsor">Partnerships</a><a class="nav-link" href="#contact">Contact</a>
+      </nav>
+      <a href="#register" class="hidden md:inline-flex items-center gap-3 text-[10px] tracking-[.16em] uppercase border border-white/50 px-5 py-3 hover:bg-white hover:text-wine transition">Register now <span>↗</span></a>
+      <button id="menuBtn" class="lg:hidden text-xs uppercase tracking-widest" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">Menu <span class="ml-2">☰</span></button>
+    </div>
+  </header>
+  <div id="menuPanel" class="menu-panel fixed inset-0 z-40 bg-wine text-cream flex flex-col justify-center px-8">
+    <button id="closeMenu" class="absolute top-6 right-6 text-xs uppercase tracking-widest">Close ✕</button>
+    <nav class="display flex flex-col text-5xl gap-3"><a href="#home" class="menu-link">Home</a><a href="#about" class="menu-link">Our story</a><a href="#judges" class="menu-link">The judges</a><a href="#sponsor" class="menu-link">Become a sponsor</a><a href="#contact" class="menu-link">Contact</a><a href="#register" class="menu-link text-gold">Register now ↗</a></nav>
+  </div>
+
+
+  <!-- HOME -->
+  <main>
+    <section id="home" class="hero relative min-h-[100svh] bg-wine text-cream overflow-hidden flex items-end">
+      <div class="absolute inset-0"><img data-parallax="0.18" class="hero-image w-full h-full object-cover opacity-60" src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=2200&q=90" alt="Wine glasses at a vineyard celebration"><div class="absolute inset-0 bg-gradient-to-r from-[#2b1019]/90 via-[#39131f]/45 to-transparent"></div><div class="absolute inset-0 bg-gradient-to-t from-[#2b1019]/70 via-transparent to-[#2b1019]/25"></div></div>
+      <div class="grain absolute inset-0"></div>
+      <div class="relative z-10 w-full px-6 md:px-12 pb-14 md:pb-20 pt-32">
+        <div class="flex items-center gap-3 mb-8 reveal" style="--d:.2s"><span class="w-8 h-px bg-gold"></span><p class="text-[10px] md:text-xs tracking-[.28em] uppercase">An ode to the art of wine</p></div>
+        <h1 class="display text-[18vw] md:text-[13vw] leading-[.76] max-w-6xl" data-split style="--base:.25s">A taste of<br><em class="font-normal text-gold">something</em> timeless.</h1>
+        <div class="mt-12 md:mt-16 flex flex-col md:flex-row md:items-end justify-between gap-8 reveal" style="--d:.95s"><p class="max-w-sm text-sm leading-7 text-white/75">Where extraordinary vineyards, curious minds and a love for the finer things come together.</p><a href="#about" class="outline-button inline-flex self-start items-center gap-8 px-6 py-4 text-[10px] uppercase tracking-[.18em]">Discover Vinea <span class="text-lg bob">↓</span></a></div>
+        <div class="absolute right-10 top-1/2 hidden xl:block text-[9px] uppercase tracking-[.2em] [writing-mode:vertical-rl]">Good wine. Great company. Unforgettable moments.</div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 border-t border-white/20 py-4 px-6 md:px-12 flex justify-between text-[9px] uppercase tracking-[.2em] text-white/60"><span>Est. in the spirit of discovery</span><span>Scroll to explore <span class="bob">↓</span></span></div>
+    </section>
+
+    <!-- Editorial ticker -->
+    <div class="marquee-wrap overflow-hidden bg-[#e7dfd2] py-5 border-b border-black/10"><div class="marquee flex w-max display text-3xl md:text-5xl text-wine"><span class="px-5">A celebration of craftsmanship ✳ A celebration of craftsmanship ✳ A celebration of craftsmanship ✳&nbsp;</span><span class="px-5">A celebration of craftsmanship ✳ A celebration of craftsmanship ✳ A celebration of craftsmanship ✳&nbsp;</span></div></div>
+
+    <!-- ABOUT -->
+    <section id="about" class="py-24 md:py-36 px-6 md:px-12">
+      <div class="grid md:grid-cols-12 gap-12 md:gap-8 items-start">
+        <div class="md:col-span-5 reveal"><p class="text-[10px] uppercase tracking-[.22em] text-wine mb-6">01 / Our story</p><h2 data-split class="display text-6xl md:text-8xl leading-[.85]">Rooted in<br><em>the good</em><br>things.</h2></div>
+        <div class="md:col-span-6 md:col-start-7 pt-4 reveal"><p class="text-lg md:text-2xl leading-relaxed">Wine is more than what’s in the glass. It’s the land, the hands, the patience, and the people who make every pour mean something.</p><p class="mt-6 text-sm leading-7 text-black/60 max-w-lg">Vinea brings the world of wine to life through thoughtfully curated experiences, passionate people and a shared appreciation for the craft. We celebrate the makers, the stories and the moments that deserve to be savoured.</p><a href="#judges" class="mt-9 inline-flex items-center gap-6 text-[10px] uppercase tracking-[.18em] text-wine border-b border-wine/40 pb-2">Meet our community <span class="text-lg">↗</span></a></div>
+      </div>
+      <div class="mt-20 grid md:grid-cols-12 gap-5 items-stretch" data-stagger>
+        <div class="md:col-span-7 relative overflow-hidden min-h-[360px] img-reveal"><img data-parallax="0.07" class="absolute inset-0 w-full h-full object-cover" src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=1400&q=85" alt="Vineyard rows in the golden light"><div class="absolute inset-0 image-overlay"></div><p class="absolute bottom-6 left-6 text-cream text-xs tracking-widest uppercase">A sense of place, in every glass.</p></div>
+        <div class="md:col-span-5 bg-[#e7dfd2] p-8 md:p-12 flex flex-col justify-between min-h-[360px] reveal"><span class="text-[10px] uppercase tracking-[.2em] text-wine">Our philosophy</span><h3 class="display text-5xl md:text-6xl leading-[.9]">The best stories<br>are <em>shared.</em></h3><p class="text-sm leading-7 text-black/60 max-w-sm">We believe the magic happens when a remarkable bottle meets an open mind and a table full of good company.</p></div>
+      </div>
+    </section>
+
+    <!-- JUDGES -->
+    <section id="judges" class="bg-[#292b20] text-cream py-24 md:py-32 px-6 md:px-12">
+      <div class="flex flex-col md:flex-row justify-between gap-8 items-start mb-14"><div class="reveal"><p class="text-[10px] uppercase tracking-[.22em] text-gold mb-6">02 / The people behind the palate</p><h2 data-split class="display text-6xl md:text-8xl leading-[.85]">Meet the<br><em>judges.</em></h2></div><p class="max-w-xs text-sm leading-7 text-white/55 md:mt-16 reveal">A discerning panel of wine lovers, makers and storytellers. Each brings a distinct perspective to the table.</p></div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" data-stagger>
+        <article class="wine-card reveal"><div class="overflow-hidden relative aspect-[4/5] bg-[#3a3b30] img-reveal"><img data-parallax="0.05" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85" alt="Portrait of a wine judge"></div><div class="pt-5 flex justify-between items-start"><div><h3 class="display text-3xl">Alexandre Moreau</h3><p class="text-[10px] uppercase tracking-[.16em] text-gold mt-2">Master of Wine</p></div><span class="text-gold arrow">↗</span></div></article>
+        <article class="wine-card reveal"><div class="overflow-hidden relative aspect-[4/5] bg-[#3a3b30] img-reveal"><img data-parallax="0.05" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85" alt="Portrait of a wine judge"></div><div class="pt-5 flex justify-between items-start"><div><h3 class="display text-3xl">Isabella Laurent</h3><p class="text-[10px] uppercase tracking-[.16em] text-gold mt-2">Sommelier & Educator</p></div><span class="text-gold arrow">↗</span></div></article>
+        <article class="wine-card reveal"><div class="overflow-hidden relative aspect-[4/5] bg-[#3a3b30] img-reveal"><img data-parallax="0.05" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=85" alt="Portrait of a wine judge"></div><div class="pt-5 flex justify-between items-start"><div><h3 class="display text-3xl">Marco Bellini</h3><p class="text-[10px] uppercase tracking-[.16em] text-gold mt-2">Vintner & Curator</p></div><span class="text-gold arrow">↗</span></div></article>
+      </div>
+      <p class="text-[10px] text-white/40 mt-6">*Judge names and profiles are illustrative placeholders.</p>
+    </section>
+
+    <!-- SPONSOR -->
+    <section id="sponsor" class="relative bg-wine text-cream py-24 md:py-36 px-6 md:px-12 overflow-hidden">
+      <div class="absolute -right-24 -top-24 display text-[35rem] leading-none text-white/[.025] select-none" data-parallax="0.14" aria-hidden="true">V</div>
+      <div class="relative grid md:grid-cols-12 gap-12 items-center">
+        <div class="md:col-span-7 reveal"><p class="text-[10px] uppercase tracking-[.22em] text-gold mb-6">03 / A seat at our table</p><h2 data-split class="display text-6xl md:text-8xl leading-[.82]">Good things<br>grow <em>together.</em></h2><p class="mt-8 max-w-md text-sm leading-7 text-white/65">Partner with Vinea and connect your brand with a community that values quality, culture and meaningful experiences.</p><a href="#contact" class="outline-button mt-10 inline-flex items-center gap-8 px-6 py-4 text-[10px] uppercase tracking-[.18em]">Become a sponsor <span class="text-lg">↗</span></a></div>
+        <div class="md:col-span-5 reveal"><div class="aspect-[4/5] relative overflow-hidden img-reveal"><img data-parallax="0.06" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1516594798947-e65505dbb29d?auto=format&fit=crop&w=1200&q=85" alt="Wine glasses and a beautifully set tasting table"><div class="absolute inset-0 bg-wine/20"></div><div class="absolute bottom-6 left-6 right-6 border border-white/50 p-5"><p class="text-[9px] uppercase tracking-[.2em]">The Vinea experience</p><p class="display text-3xl mt-2">Make a lasting impression.</p></div></div></div>
+      </div>
+      <div class="mt-24 pt-8 border-t border-white/20 grid grid-cols-2 md:grid-cols-4 gap-6 text-[10px] uppercase tracking-[.15em] text-white/60" data-stagger><span>Brand visibility</span><span>Curated experiences</span><span>Community connection</span><span>Shared storytelling</span></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-24 md:py-32 px-6 md:px-12">
+      <div class="grid md:grid-cols-12 gap-12">
+        <div class="md:col-span-5 reveal"><p class="text-[10px] uppercase tracking-[.22em] text-wine mb-6">04 / Let's talk</p><h2 data-split class="display text-6xl md:text-8xl leading-[.85]">The start of<br><em>something.</em></h2><p class="mt-8 text-sm leading-7 text-black/60 max-w-sm">Have a question, a collaboration in mind or simply want to say hello? We’d love to hear from you.</p><div class="mt-10"><p class="text-[10px] uppercase tracking-[.15em] text-black/45">Write to us</p><a class="display text-3xl md:text-4xl text-wine border-b border-wine/30 pb-1" href="mailto:hello@vinea.example">hello@vinea.example</a></div></div>
+        <form id="contactForm" class="md:col-span-6 md:col-start-7 reveal space-y-7">
+          <div class="grid sm:grid-cols-2 gap-6"><label class="block"><span class="text-[10px] uppercase tracking-[.15em] text-black/50">Your name</span><input required name="name" placeholder="Name" class="field w-full bg-transparent border-b border-black/25 py-3 outline-none focus:border-wine text-sm"></label><label class="block"><span class="text-[10px] uppercase tracking-[.15em] text-black/50">Email address</span><input required type="email" name="email" placeholder="Email" class="field w-full bg-transparent border-b border-black/25 py-3 outline-none focus:border-wine text-sm"></label></div>
+          <label class="block"><span class="text-[10px] uppercase tracking-[.15em] text-black/50">I’m reaching out about</span><select name="subject" class="field w-full bg-transparent border-b border-black/25 py-3 outline-none focus:border-wine text-sm"><option>General enquiry</option><option>Sponsorship</option><option>Press & media</option><option>Event registration</option></select></label>
+          <label class="block"><span class="text-[10px] uppercase tracking-[.15em] text-black/50">Your message</span><textarea required name="message" rows="3" placeholder="Tell us a little more..." class="field w-full bg-transparent border-b border-black/25 py-3 outline-none focus:border-wine text-sm resize-y"></textarea></label>
+          <button class="bg-wine text-cream px-7 py-4 text-[10px] uppercase tracking-[.18em] hover:bg-[#78283b] transition" type="submit">Send your message ↗</button><p id="contactStatus" class="text-xs text-wine" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="register" class="bg-[#e7dfd2] py-24 md:py-32 px-6 md:px-12 relative overflow-hidden">
+      <div class="grid md:grid-cols-12 gap-12 items-center relative z-10"><div class="md:col-span-7 reveal"><p class="text-[10px] uppercase tracking-[.22em] text-wine mb-6">05 / Save your place</p><h2 data-split class="display text-7xl md:text-[9rem] leading-[.78]">Raise a<br><em>glass.</em></h2></div><div class="md:col-span-5 reveal"><p class="text-lg leading-8 max-w-sm">Be part of the next chapter. Sign up to hear about upcoming gatherings, tastings and Vinea experiences.</p><form id="registerForm" class="mt-8 flex flex-col sm:flex-row gap-3"><input required type="email" name="email" placeholder="Your email address" class="field min-w-0 flex-1 bg-transparent border-b border-black/30 py-4 outline-none focus:border-wine text-sm"><button class="bg-wine text-cream px-6 py-4 text-[10px] uppercase tracking-[.18em] hover:bg-[#78283b] transition whitespace-nowrap">Register now ↗</button></form><p id="registerStatus" class="text-xs text-wine mt-3" role="status"></p><p class="text-[9px] text-black/45 mt-4">By registering, you agree to receive Vinea updates. You can unsubscribe at any time.</p></div></div>
+      <div class="absolute display text-[30rem] -bottom-72 -right-20 text-wine/[.035]" data-parallax="0.1" aria-hidden="true">V</div>
+    </section>
+  </main>
+  <!-- FOOTER -->
+  <footer class="bg-wine text-cream px-6 md:px-12 pt-12 pb-7"><div class="flex flex-col md:flex-row justify-between gap-10"><div><a href="#home" class="display text-5xl">vinea<span class="text-gold">.</span></a><p class="text-xs text-white/50 mt-3">A celebration of the art of wine.</p></div><div class="grid grid-cols-2 gap-x-12 gap-y-3 text-[10px] uppercase tracking-[.16em]"><a href="#about" class="hover:text-gold">Our story ↗</a><a href="#judges" class="hover:text-gold">The judges ↗</a><a href="#sponsor" class="hover:text-gold">Partnerships ↗</a><a href="#contact" class="hover:text-gold">Contact ↗</a><a href="#register" class="hover:text-gold">Register ↗</a></div></div><div class="footer-word display" aria-hidden="true" data-letters>vinea.</div><div class="mt-10 pt-5 border-t border-white/20 flex flex-col sm:flex-row justify-between gap-3 text-[9px] uppercase tracking-[.15em] text-white/40"><span>© 2026 Vinea. All rights reserved.</span><span>Drink thoughtfully · Celebrate beautifully</span><a href="#home">Back to top ↑</a></div></footer>
+    <script src="script.js"></script>
+
+</body>
+</html>

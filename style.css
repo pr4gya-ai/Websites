@@ -1,0 +1,175 @@
+/* ==========================================================================
+   Vinea: base styles, then the animation layer.
+   Everything that hides content until JavaScript runs is gated by the .js class
+   on <html>, so the page still reads fine if scripts fail.
+   ========================================================================== */
+
+:root {
+  --wine: #5b1726;
+  --cream: #f5f0e7;
+  --ink: #24221f;
+  --gold: #c4a46b;
+  --olive: #666b45;
+  --ease: cubic-bezier(.2, .7, .2, 1);      /* soft landing, used for most motion */
+  --ease-io: cubic-bezier(.76, 0, .24, 1);  /* strong in-and-out, used for curtains and wipes */
+}
+
+* { scroll-behavior: smooth; }
+body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+.display { font-family: 'Cormorant Garamond', serif; letter-spacing: -.045em; }
+
+/* ---------- Navigation ---------- */
+.nav-link { position: relative; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; }
+.nav-link:after { content: ''; position: absolute; left: 0; bottom: -7px; width: 0; height: 1px; background: var(--gold); transition: width .35s ease; }
+.nav-link:hover:after { width: 100%; }
+
+#header { transition: transform .6s var(--ease); }
+#header.hide { transform: translateY(-110%); }
+
+/* ---------- Film grain (now drifts, like real film) ---------- */
+.grain { overflow: hidden; }
+.grain:after {
+  content: ''; position: absolute; inset: -50%; pointer-events: none; opacity: .12;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+  animation: grain 1.1s steps(6) infinite;
+}
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  17%  { transform: translate(-3%, 4%); }
+  33%  { transform: translate(4%, -3%); }
+  50%  { transform: translate(-4%, -2%); }
+  67%  { transform: translate(3%, 3%); }
+  83%  { transform: translate(-2%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- Reveal on scroll ---------- */
+.js .reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity .9s var(--ease) var(--d, 0s), transform .9s var(--ease) var(--d, 0s);
+}
+.js .reveal.visible { opacity: 1; transform: none; }
+
+/* Headlines that slide up line by line from behind a mask.
+   The padding and negative margin enlarge the mask so tall letters are not clipped by tight line-heights. */
+.line { display: block; overflow: hidden; padding: .2em 0; margin: -.2em 0; }
+.line > span { display: block; }
+.js [data-split] .line > span {
+  transform: translateY(115%) rotate(2deg); transform-origin: 0 100%;
+  transition: transform 1.2s var(--ease) calc(var(--base, 0s) + var(--i, 0) * .12s);
+}
+.js [data-split].visible .line > span { transform: none; }
+
+/* Single letters rising (used for the big footer word). */
+.letters { display: block; white-space: nowrap; overflow: hidden; padding: .1em 0; margin: -.1em 0; }
+.letters .ch { display: inline-block; }
+.js .letters .ch {
+  transform: translateY(110%);
+  transition: transform 1.1s var(--ease) calc(var(--i, 0) * .07s);
+}
+.js .letters.visible .ch { transform: none; }
+
+/* Images that wipe open like a curtain, while the picture inside settles from zoomed-in.
+   The "scale" property is used (not "transform") so parallax can use "transform" without a clash. */
+.js .img-reveal { clip-path: inset(100% 0 0 0); transition: clip-path 1.4s var(--ease-io) var(--d, 0s); }
+.js .img-reveal.visible { clip-path: inset(0 0 0 0); }
+.js .img-reveal img { scale: 1.35; transition: scale 2s var(--ease) var(--d, 0s); }
+.js .img-reveal.visible img { scale: 1; }
+.js .wine-card .img-reveal { --d: calc(var(--dd, 0s) + .15s); }
+
+/* Images and shapes that drift as you scroll. The picture is made taller than its frame
+   so there is room to move without showing gaps. */
+img[data-parallax] { height: 118% !important; top: -9% !important; position: absolute !important; max-width: none; will-change: transform; }
+[data-parallax]:not(img) { will-change: transform; }
+
+/* ---------- Hero ---------- */
+.hero-image { scale: 1.04; }
+.js .hero-image { animation: kenburns 18s var(--ease) both paused; }
+.is-loaded .hero-image { animation-play-state: running; }
+@keyframes kenburns { from { scale: 1.22; } to { scale: 1.04; } }
+
+.bob { display: inline-block; animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(5px); } }
+
+/* ---------- Buttons ---------- */
+.outline-button { border: 1px solid currentColor; transition: background .3s, color .3s, transform .5s var(--ease); will-change: transform; }
+.outline-button:hover { background: var(--cream); color: var(--wine); }
+.outline-button span { display: inline-block; transition: transform .4s var(--ease); }
+.outline-button:hover span { transform: translate(3px, -3px); }
+.outline-button:hover span.bob { animation-play-state: paused; transform: translateY(4px); }
+button[type=submit], .mag { transition: background .3s, transform .5s var(--ease); will-change: transform; }
+
+/* ---------- Judge cards ---------- */
+.wine-card img { transition: scale .9s var(--ease), filter .6s; }
+.js .wine-card:hover .img-reveal.visible img,
+.wine-card:hover img { scale: 1.06; filter: saturate(1.15); transition-delay: 0s; transition-duration: .9s; }
+.wine-card h3 { width: fit-content; background: linear-gradient(var(--gold), var(--gold)) 0 100% / 0 1px no-repeat; transition: background-size .6s var(--ease); }
+.wine-card:hover h3 { background-size: 100% 1px; }
+.wine-card .arrow { display: inline-block; transition: transform .5s var(--ease); }
+.wine-card:hover .arrow { transform: rotate(45deg) scale(1.2); }
+
+/* ---------- Marquee (position is driven by scroll in script.js) ---------- */
+.marquee { white-space: nowrap; will-change: transform; }
+html:not(.js) .marquee { animation: marquee 26s linear infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- Mobile menu ---------- */
+#menuPanel { z-index: 55; } /* above the header, so the header's Menu button does not show through */
+.menu-panel { clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .7s var(--ease-io), visibility 0s .7s; }
+.menu-panel.open { clip-path: inset(0 0 0 0); visibility: visible; transition-delay: 0s; }
+.menu-link { display: inline-block; opacity: 0; transform: translateY(46px); transition: opacity .4s, transform .5s var(--ease); }
+.menu-panel.open .menu-link { opacity: 1; transform: none; transition: opacity .8s var(--ease), transform .9s var(--ease); transition-delay: calc(.3s + var(--i, 0) * .07s); }
+
+.image-overlay { background: linear-gradient(180deg, transparent 35%, rgba(25, 12, 14, .66) 100%); }
+
+/* ---------- Forms ---------- */
+.field {
+  background-image: linear-gradient(var(--wine), var(--wine));
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0 2px;
+  transition: background-size .6s var(--ease), border-color .3s;
+}
+.field:focus { background-size: 100% 2px; }
+.status-in { animation: rise .7s var(--ease) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Big footer word ---------- */
+.footer-word { font-size: clamp(5rem, 27vw, 26rem); line-height: .8; text-align: center; color: rgba(245, 240, 231, .09); margin-top: 3rem; user-select: none; }
+
+/* ---------- Scroll progress ---------- */
+#progress {
+  position: fixed; left: 0; top: 0; width: 100%; height: 3px; z-index: 60; background: var(--gold);
+  transform: scaleX(0); transform-origin: 0 50%; pointer-events: none;
+}
+
+/* ---------- Intro curtain ---------- */
+#loader { display: none; }
+.js #loader {
+  display: flex; position: fixed; inset: 0; z-index: 100; background: var(--wine); color: var(--cream);
+  flex-direction: column; align-items: center; justify-content: center;
+  clip-path: inset(0 0 0 0); transition: clip-path 1.1s var(--ease-io);
+}
+#loader.done { clip-path: inset(0 0 100% 0); }
+#loader .word { overflow: hidden; padding: .15em .1em; font-size: clamp(4.5rem, 16vw, 11rem); line-height: .9; }
+#loader .word span { display: block; animation: word-in 1.1s var(--ease) both; }
+#loader .word i { font-style: normal; color: var(--gold); }
+@keyframes word-in { from { transform: translateY(110%); } to { transform: none; } }
+#loader.done .word span { transform: translateY(-40%); opacity: 0; transition: transform .9s var(--ease), opacity .5s; }
+#loader .meta { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.5rem 2rem; display: flex; justify-content: space-between; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(245, 240, 231, .7); }
+#loader .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--gold); transform: scaleX(0); transform-origin: 0 50%; }
+
+/* ---------- Custom cursor (mouse only; the normal cursor stays visible) ---------- */
+#cursor, #cursorDot { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 120; border-radius: 50%; opacity: 0; transition: opacity .3s; }
+#cursor { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1px solid var(--gold); transition: opacity .3s, scale .4s var(--ease), background .3s; }
+#cursorDot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--gold); }
+.cursor-on #cursor, .cursor-on #cursorDot { opacity: 1; }
+.cursor-link #cursor { scale: 1.7; background: rgba(196, 164, 107, .16); }
+.cursor-down #cursor { scale: .7; }
+
+/* ---------- Reduced motion: show everything, stop everything ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *:before, *:after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
+  .js .reveal, .js [data-split] .line > span, .js .letters .ch { opacity: 1; transform: none; }
+  .js .img-reveal { clip-path: none; }
+  .js .img-reveal img { scale: 1; }
+  #loader { display: none !important; }
+}
